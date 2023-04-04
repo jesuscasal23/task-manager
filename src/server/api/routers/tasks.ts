@@ -36,4 +36,17 @@ export const tasksRouter = createTRPCRouter({
         },
       });
     }),
+  delete: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.tasks.delete({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
 });

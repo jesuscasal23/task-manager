@@ -26,4 +26,20 @@ export const categoriesRouter = createTRPCRouter({
         },
       });
     }),
+  deleteCategoryAndLinkedTasks: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.categories.delete({
+        where: {
+          id: input.id,
+        },
+        include: {
+          tasks: true,
+        },
+      });
+    }),
 });
