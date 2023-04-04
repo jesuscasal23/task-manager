@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "@/utils/api";
-import { Button, Modal, Input } from "@/components";
+import { Button, Modal, Input, Select } from "@/components";
 
 type CreateTaskModalProps = {
   open: boolean;
@@ -12,14 +12,30 @@ const CreateTaskModal = ({ open, setOpen }: CreateTaskModalProps) => {
   const queryClient = useQueryClient();
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
+  const [taskCategory, setTaskCategory] = useState({
+    value: "",
+    label: "Select a category",
+  });
   const createTask = api.tasks.create.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries(["tasks"]);
     },
   });
 
+  const { data: categories } = api.categories.getAllCategories.useQuery();
+
   const onSubmit = (title: string, description: string) => {
     createTask.mutate({ title, description });
+  };
+
+  const createCategoryOptions = () => {
+    if (Array.isArray(categories)) {
+      return categories.map((category: { id: string; title: string }) => ({
+        value: category.id,
+        label: category.title,
+      }));
+    }
+    return [];
   };
 
   return (
@@ -28,6 +44,14 @@ const CreateTaskModal = ({ open, setOpen }: CreateTaskModalProps) => {
         <h3 className="mb-2 text-base font-semibold leading-6 text-gray-900">
           create New Task
         </h3>
+        <Select
+          label={"category"}
+          options={createCategoryOptions()}
+          onChange={(e: { label: string; value: string }) => {
+            setTaskCategory(e);
+          }}
+          selectedOption={taskCategory}
+        />
         <div className="mb-4">
           <Input
             label={"title"}
