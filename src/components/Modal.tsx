@@ -3,14 +3,14 @@ import { Dialog, Transition } from "@headlessui/react";
 
 type ModalProps = {
   open: boolean;
-  setOpen: (open: boolean) => void;
+  setIsOpen: (open: boolean) => void;
   children: React.ReactNode;
 };
 
-const Modal = ({ open, setOpen, children }: ModalProps) => {
+const Modal = ({ open, setIsOpen, children }: ModalProps) => {
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={setOpen}>
+      <Dialog as="div" className="relative z-10" onClose={setIsOpen}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

@@ -5,10 +5,10 @@ import { Button, Modal, Input, Select } from "@/components";
 
 type CreateTaskModalProps = {
   open: boolean;
-  setOpen: (open: boolean) => void;
+  setIsOpen: (open: boolean) => void;
 };
 
-const CreateTaskModal = ({ open, setOpen }: CreateTaskModalProps) => {
+const CreateTaskModal = ({ open, setIsOpen }: CreateTaskModalProps) => {
   const queryClient = useQueryClient();
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
@@ -25,7 +25,7 @@ const CreateTaskModal = ({ open, setOpen }: CreateTaskModalProps) => {
   const { data: categories } = api.categories.getAllCategories.useQuery();
 
   const onSubmit = (title: string, description: string) => {
-    createTask.mutate({ title, description });
+    createTask.mutate({ title, description, categoriesId: taskCategory.value });
   };
 
   const createCategoryOptions = () => {
@@ -39,7 +39,7 @@ const CreateTaskModal = ({ open, setOpen }: CreateTaskModalProps) => {
   };
 
   return (
-    <Modal open={open} setOpen={setOpen}>
+    <Modal open={open} setIsOpen={setIsOpen}>
       <div className="mt-3 text-center sm:mt-5">
         <h3 className="mb-2 text-base font-semibold leading-6 text-gray-900">
           create New Task
@@ -71,7 +71,7 @@ const CreateTaskModal = ({ open, setOpen }: CreateTaskModalProps) => {
         </div>
       </div>
       <div className="flex justify-evenly">
-        <Button variant="secondary" onClick={() => setOpen(false)}>
+        <Button variant="secondary" onClick={() => setIsOpen(false)}>
           Cancel
         </Button>
         <Button onClick={() => onSubmit(taskTitle, taskDescription)}>

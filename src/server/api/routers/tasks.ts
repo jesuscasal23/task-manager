@@ -24,6 +24,7 @@ export const tasksRouter = createTRPCRouter({
       z.object({
         title: z.string(),
         description: z.string(),
+        categoriesId: z.string(),
       })
     )
     .mutation(({ ctx, input }) => {
@@ -31,6 +32,7 @@ export const tasksRouter = createTRPCRouter({
         data: {
           title: input.title,
           description: input.description,
+          categoriesId: input.categoriesId,
         },
       });
     }),
