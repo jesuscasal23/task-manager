@@ -7,9 +7,15 @@ type TaskRowProps = {
 };
 
 function TaskRow({ categoryWithTasks }: TaskRowProps) {
-  console.log(categoryWithTasks);
   return (
-    <div style={{ width: "300px" }}>
+    <div style={{ width: "300px", marginRight: "20px" }}>
+      <h3
+        className={
+          'dark:text-sky-400" center m-0 text-center font-display text-xl text-sky-900'
+        }
+      >
+        {categoryWithTasks.title}
+      </h3>
       {categoryWithTasks.tasks.map((task) => (
         <TaskCard key={task.id} title={task.title} description={task.title} />
       ))}

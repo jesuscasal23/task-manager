@@ -17,29 +17,32 @@ const Home: NextPage = () => {
   return (
     <main className="h-screen pt-2 dark:bg-slate-900">
       <ToastContainer containerId="an id" draggable={false} />
-
-      <div className="flex justify-center">
-        <p className=" inline bg-gradient-to-r from-indigo-200 via-sky-400 to-indigo-200  bg-clip-text font-display text-5xl leading-loose tracking-tight text-transparent">
-          Task Manager
-        </p>
-      </div>
-
       <CreateTaskModal open={isOpenCreateTask} setIsOpen={setOpenCreateTask} />
       <CreateCategoryModal
         open={isOpenCreateCategory}
         setIsOpen={setOpenCreateCategory}
       />
-      <div style={{ width: "80%", marginLeft: "10%" }}>
-        <Button onClick={() => setOpenCreateTask(true)} className="mr-2">
-          Create Task
-        </Button>
-        <Button onClick={() => setOpenCreateCategory(true)}>
-          Create Category
-        </Button>
 
-        {categoriesAndTasks?.map((category) => (
-          <TaskRow key={category.id} categoryWithTasks={category} />
-        ))}
+      <div className="flex justify-evenly">
+        <p className=" inline bg-gradient-to-r from-indigo-200 via-sky-400 to-indigo-200  bg-clip-text font-display text-5xl leading-loose tracking-tight text-transparent">
+          Task Manager
+        </p>
+        <div className="mt-8 flex align-middle">
+          <Button onClick={() => setOpenCreateTask(true)} className="mr-2">
+            Create Task
+          </Button>
+          <Button onClick={() => setOpenCreateCategory(true)}>
+            Create Category
+          </Button>
+        </div>
+      </div>
+
+      <div style={{ width: "80%", marginLeft: "10%" }}>
+        <div className="just flex">
+          {categoriesAndTasks?.map((category) => (
+            <TaskRow key={category.id} categoryWithTasks={category} />
+          ))}
+        </div>
       </div>
     </main>
   );
