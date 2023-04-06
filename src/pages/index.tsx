@@ -3,7 +3,7 @@ import Image from "next/image";
 import { api } from "@/utils/api";
 import { useState } from "react";
 import TaskRow from "@/pageComponents/main/TaskRow";
-import { Button } from "@/components";
+import { Button, Typography } from "@/components";
 import CreateTaskModal from "@/pageComponents/main/CreateTaskModal";
 import blurCyanImage from "@/images/blur-cyan.png";
 import { ToastContainer } from "react-toastify";
@@ -35,9 +35,7 @@ const Home: NextPage = () => {
       />
 
       <div className="flex justify-evenly">
-        <p className=" inline bg-gradient-to-r from-indigo-200 via-sky-400 to-indigo-200  bg-clip-text font-display text-5xl leading-loose tracking-tight text-transparent">
-          Task Manager
-        </p>
+        <Typography variant="h1">Task Manager</Typography>
         <div className="mt-8 flex align-middle">
           <Button onClick={() => setOpenCreateTask(true)} className="mr-2">
             Create Task
