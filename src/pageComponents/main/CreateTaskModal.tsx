@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { api } from "@/utils/api";
 import { Button, Modal, Input, Select } from "@/components";
 

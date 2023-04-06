@@ -1,12 +1,5 @@
 import { api } from "@/utils/api";
 
-const styles = {
-  container:
-    "my-8 flex rounded-3xl p-6 bg-sky-50 dark:bg-slate-800/60 dark:ring-1 dark:ring-slate-300/10",
-  title: "font-display m-0 text-xl text-sky-900 dark:text-sky-400",
-  body: "prose mt-2.5 text-sky-800 [--tw-prose-background:theme(colors.sky.50)] prose-a:text-sky-900 prose-code:text-sky-900 dark:text-slate-300 dark:prose-code:text-slate-300",
-};
-
 type CalloutProps = {
   title: string;
   description: string;
@@ -22,23 +15,23 @@ function TaskCard({ title, description, id }: CalloutProps) {
   });
 
   return (
-    <div className={styles.container}>
-      <div className="ml-4 flex-auto">
-        <div className="flex justify-between">
-          <p className={styles.title}>{title}</p>
-          <p
-            onClick={() => {
-              deleteTask.mutate({
-                id,
-              });
-            }}
-            style={{ cursor: "pointer" }}
-          >
-            X
-          </p>
-        </div>
-
-        <div className={styles.body}>{description}</div>
+    <div className="group relative rounded-xl border border-slate-800">
+      <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.sky.50)),var(--quick-links-hover-bg,theme(colors.sky.50)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:theme(colors.slate.800)]" />
+      <div className="relative overflow-hidden rounded-xl p-6">
+        <p
+          onClick={() => {
+            deleteTask.mutate({
+              id,
+            });
+          }}
+          style={{ cursor: "pointer" }}
+        >
+          X
+        </p>
+        <h2 className="mt-4 font-display text-base text-white">{title}</h2>
+        <p className="mt-1 text-sm text-slate-700 dark:text-slate-400">
+          {description}
+        </p>
       </div>
     </div>
   );
