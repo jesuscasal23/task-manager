@@ -1,9 +1,11 @@
 import { type NextPage } from "next";
+import Image from "next/image";
 import { api } from "@/utils/api";
 import { useState } from "react";
 import TaskRow from "@/pageComponents/main/TaskRow";
 import { Button } from "@/components";
 import CreateTaskModal from "@/pageComponents/main/CreateTaskModal";
+import blurCyanImage from "@/images/blur-cyan.png";
 import { ToastContainer } from "react-toastify";
 import CreateCategoryModal from "@/pageComponents/main/CreateCategoryModal";
 
@@ -15,7 +17,16 @@ const Home: NextPage = () => {
   const [isOpenCreateCategory, setOpenCreateCategory] = useState(false);
 
   return (
-    <main className="h-screen pt-2 dark:bg-slate-900">
+    <main className="h-screen bg-slate-900 pt-2">
+      <Image
+        className="absolute bottom-full right-full -mb-56 -mr-72 opacity-50"
+        src={blurCyanImage}
+        alt=""
+        width={530}
+        height={530}
+        unoptimized
+        priority
+      />
       <ToastContainer containerId="an id" draggable={false} />
       <CreateTaskModal open={isOpenCreateTask} setIsOpen={setOpenCreateTask} />
       <CreateCategoryModal
