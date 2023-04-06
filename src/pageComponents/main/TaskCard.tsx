@@ -1,3 +1,5 @@
+import { api } from "@/utils/api";
+
 const styles = {
   container:
     "my-8 flex rounded-3xl p-6 bg-sky-50 dark:bg-slate-800/60 dark:ring-1 dark:ring-slate-300/10",
@@ -8,13 +10,34 @@ const styles = {
 type CalloutProps = {
   title: string;
   description: string;
+  id: string;
 };
 
-function TaskCard({ title, description }: CalloutProps) {
+function TaskCard({ title, description, id }: CalloutProps) {
+  const utils = api.useContext();
+  const deleteTask = api.tasks.delete.useMutation({
+    onSuccess: () => {
+      utils.categories.getAllCategoriesWithTasks.invalidate();
+    },
+  });
+
   return (
     <div className={styles.container}>
       <div className="ml-4 flex-auto">
-        <p className={styles.title}>{title}</p>
+        <div className="flex justify-between">
+          <p className={styles.title}>{title}</p>
+          <p
+            onClick={() => {
+              deleteTask.mutate({
+                id,
+              });
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            X
+          </p>
+        </div>
+
         <div className={styles.body}>{description}</div>
       </div>
     </div>

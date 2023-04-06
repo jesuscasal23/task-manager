@@ -37,7 +37,12 @@ function TaskRow({ categoryWithTasks }: TaskRowProps) {
         </h3>
       </div>
       {categoryWithTasks.tasks.map((task) => (
-        <TaskCard key={task.id} title={task.title} description={task.title} />
+        <TaskCard
+          key={task.id}
+          title={task.title}
+          description={task.title}
+          id={task.id}
+        />
       ))}
     </div>
   );

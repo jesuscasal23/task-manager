@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { api } from "@/utils/api";
 import { Button, Modal, Input } from "@/components";
 
@@ -9,11 +8,11 @@ type CreateCategoryModalProps = {
 };
 
 const CreateCategoryModal = ({ open, setIsOpen }: CreateCategoryModalProps) => {
-  const queryClient = useQueryClient();
+  const utils = api.useContext();
   const [categoryTitle, setCategoryTitle] = useState("");
   const createCategory = api.categories.create.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(["categories"]);
+      utils.categories.getAllCategoriesWithTasks.invalidate();
     },
   });
 
