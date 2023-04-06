@@ -13,6 +13,7 @@ const CreateCategoryModal = ({ open, setIsOpen }: CreateCategoryModalProps) => {
   const createCategory = api.categories.create.useMutation({
     onSuccess: () => {
       utils.categories.getAllCategoriesWithTasks.invalidate();
+      setIsOpen(false);
     },
   });
 

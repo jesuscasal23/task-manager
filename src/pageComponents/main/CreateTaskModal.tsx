@@ -9,7 +9,7 @@ type CreateTaskModalProps = {
 };
 
 const CreateTaskModal = ({ open, setIsOpen }: CreateTaskModalProps) => {
-  const queryClient = useQueryClient();
+  const utils = api.useContext();
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [taskCategory, setTaskCategory] = useState({
@@ -18,7 +18,8 @@ const CreateTaskModal = ({ open, setIsOpen }: CreateTaskModalProps) => {
   });
   const createTask = api.tasks.create.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries(["tasks"]);
+      utils.categories.getAllCategoriesWithTasks.invalidate();
+      setIsOpen(false);
     },
   });
 
