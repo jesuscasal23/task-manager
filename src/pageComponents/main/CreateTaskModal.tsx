@@ -25,7 +25,6 @@ const CreateTaskModal = ({ open, setIsOpen }: CreateTaskModalProps) => {
   const { data: categories } = api.categories.getAllCategories.useQuery();
 
   const onSubmit = (title: string, description: string) => {
-    console.log(taskCategory);
     createTask.mutate({ title, description, categoriesId: taskCategory.value });
   };
 
