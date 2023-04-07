@@ -1,7 +1,32 @@
-import { api } from "@/utils/api";
+import { api, type RouterOutputs } from "@/utils/api";
 
 type UseCreateTaskProps = {
   onSuccessCallback?: () => void;
+};
+
+const addNewCategoryToCache = (
+  oldData: RouterOutputs["categories"]["getAllCategoriesWithTasks"] | undefined,
+  newTask: {
+    title: string;
+    description: string;
+    categoriesId: string;
+  }
+) => {
+  const newData = oldData?.map((category) => {
+    if (category.id === newTask.categoriesId) {
+      return {
+        ...category,
+        tasks: [
+          ...category.tasks,
+          { ...newTask, id: `tempId${new Date().getTime()}` },
+        ],
+      };
+    }
+
+    return category;
+  });
+
+  return newData;
 };
 
 const useCreateTask = ({ onSuccessCallback }: UseCreateTaskProps = {}) => {
@@ -14,25 +39,8 @@ const useCreateTask = ({ onSuccessCallback }: UseCreateTaskProps = {}) => {
       const previousCategories =
         utils.categories.getAllCategoriesWithTasks.getData();
 
-      utils.categories.getAllCategoriesWithTasks.setData(
-        undefined,
-        (oldData) => {
-          const newData = oldData?.map((category) => {
-            if (category.id === newTask.categoriesId) {
-              return {
-                ...category,
-                tasks: [
-                  ...category.tasks,
-                  { ...newTask, id: `tempId${new Date().getTime()}` },
-                ],
-              };
-            }
-
-            return category;
-          });
-
-          return newData;
-        }
+      utils.categories.getAllCategoriesWithTasks.setData(undefined, (oldData) =>
+        addNewCategoryToCache(oldData, newTask)
       );
 
       if (onSuccessCallback && typeof onSuccessCallback === "function") {

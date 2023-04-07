@@ -17,11 +17,11 @@ function TaskRow({ categoryWithTasks }: TaskRowProps) {
     });
 
   return (
-    <div style={{ width: "300px", marginRight: "20px" }}>
+    <div style={{ width: "300px" }} className="mr-4">
       <div className="flex justify-between">
         <h3
           className={
-            'dark:text-sky-400" center m-0 text-center font-display text-xl text-sky-900'
+            'dark:text-sky-400" center m-0 mb-6 text-center font-display text-xl text-sky-900'
           }
         >
           {categoryWithTasks.title}
