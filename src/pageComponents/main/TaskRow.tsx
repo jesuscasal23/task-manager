@@ -1,20 +1,14 @@
 import React from "react";
 import { type RouterOutput } from "@/server/api/root";
 import TaskCard from "@/pageComponents/main/TaskCard";
-import { api } from "@/utils/api";
+import useDeleteCategory from "@/hooks/useDeleteCategory";
 
 type TaskRowProps = {
   categoryWithTasks: RouterOutput["categories"]["getAllCategoriesWithTasks"][number];
 };
 
 function TaskRow({ categoryWithTasks }: TaskRowProps) {
-  const utils = api.useContext();
-  const { mutate: deleteCategory } =
-    api.categories.deleteCategoryAndLinkedTasks.useMutation({
-      onSuccess: () => {
-        utils.categories.getAllCategoriesWithTasks.invalidate();
-      },
-    });
+  const deleteCategory = useDeleteCategory();
 
   return (
     <div style={{ width: "300px" }} className="mr-4">
@@ -29,9 +23,9 @@ function TaskRow({ categoryWithTasks }: TaskRowProps) {
 
         <h3
           className={
-            'dark:text-sky-400" center m-0 text-center font-display text-xl text-sky-900'
+            'dark:text-sky-400" center m-0 cursor-pointer text-center font-display text-xl text-sky-900'
           }
-          onClick={() => deleteCategory({ id: categoryWithTasks.id })}
+          onClick={() => deleteCategory.mutate({ id: categoryWithTasks.id })}
         >
           X
         </h3>
