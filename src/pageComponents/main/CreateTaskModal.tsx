@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { api } from "@/utils/api";
 import { Button, Modal, Input, Select } from "@/components";
+import useCreateTask from "@/hooks/useCreateTask";
 
 type CreateTaskModalProps = {
   open: boolean;
@@ -8,23 +9,23 @@ type CreateTaskModalProps = {
 };
 
 const CreateTaskModal = ({ open, setIsOpen }: CreateTaskModalProps) => {
-  const utils = api.useContext();
+  const createTask = useCreateTask({
+    onSuccessCallback: () => {
+      setIsOpen(false);
+    },
+  });
+
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [taskCategory, setTaskCategory] = useState({
     value: "",
     label: "Select a category",
   });
-  const createTask = api.tasks.create.useMutation({
-    onSuccess: () => {
-      utils.categories.getAllCategoriesWithTasks.invalidate();
-      setIsOpen(false);
-    },
-  });
 
   const { data: categories } = api.categories.getAllCategories.useQuery();
 
   const onSubmit = (title: string, description: string) => {
+    console.log(taskCategory);
     createTask.mutate({ title, description, categoriesId: taskCategory.value });
   };
 

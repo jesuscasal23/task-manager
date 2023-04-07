@@ -15,7 +15,7 @@ model Tasks {
     title        String      @unique
     description  String
     Categories   Categories? @relation(fields: [categoriesId], references: [id])
-    categoriesId String?
+    categoriesId String
 }
 
 model Categories {
