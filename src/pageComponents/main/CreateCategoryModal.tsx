@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { api } from "@/utils/api";
 import { Button, Modal, Input } from "@/components";
+import useCreateCategory from "@/hooks/useCreateCategory";
 
 type CreateCategoryModalProps = {
   open: boolean;
@@ -8,13 +8,9 @@ type CreateCategoryModalProps = {
 };
 
 const CreateCategoryModal = ({ open, setIsOpen }: CreateCategoryModalProps) => {
-  const utils = api.useContext();
   const [categoryTitle, setCategoryTitle] = useState("");
-  const createCategory = api.categories.create.useMutation({
-    onSuccess: () => {
-      utils.categories.getAllCategoriesWithTasks.invalidate();
-      setIsOpen(false);
-    },
+  const createCategory = useCreateCategory({
+    onSuccessCallback: () => setIsOpen(false),
   });
 
   const onSubmit = () => {

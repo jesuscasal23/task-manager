@@ -1,14 +1,16 @@
 import { api } from "@/utils/api";
 
-type UseCreateTaskProps = {
+type UseCreateCategoryProps = {
   onSuccessCallback?: () => void;
 };
 
-const useCreateTask = ({ onSuccessCallback }: UseCreateTaskProps = {}) => {
+const useCreateCategory = ({
+  onSuccessCallback,
+}: UseCreateCategoryProps = {}) => {
   const utils = api.useContext();
 
-  const createTask = api.tasks.create.useMutation({
-    onMutate: async (newTask) => {
+  const createCategory = api.categories.create.useMutation({
+    onMutate: async (newCategory) => {
       await utils.categories.getAllCategoriesWithTasks.cancel();
 
       const previousCategories =
@@ -17,19 +19,17 @@ const useCreateTask = ({ onSuccessCallback }: UseCreateTaskProps = {}) => {
       utils.categories.getAllCategoriesWithTasks.setData(
         undefined,
         (oldData) => {
-          const newData = oldData?.map((category) => {
-            if (category.id === newTask.categoriesId) {
-              return {
-                ...category,
-                tasks: [
-                  ...category.tasks,
-                  { ...newTask, id: `tempId${new Date().getTime()}` },
-                ],
-              };
-            }
+          const newCategoryWithPlaceholderValues = {
+            ...newCategory,
+            id: `tempId${new Date().getTime()}`,
+            tasks: [],
+          };
 
-            return category;
-          });
+          if (!oldData) {
+            return [newCategoryWithPlaceholderValues];
+          }
+
+          const newData = [...oldData, newCategoryWithPlaceholderValues];
 
           return newData;
         }
@@ -41,12 +41,14 @@ const useCreateTask = ({ onSuccessCallback }: UseCreateTaskProps = {}) => {
 
       return previousCategories;
     },
+
     onSettled: () => {
       utils.categories.getAllCategoriesWithTasks.invalidate();
+      utils.categories.getAllCategories.invalidate();
     },
   });
 
-  return createTask;
+  return createCategory;
 };
 
-export default useCreateTask;
+export default useCreateCategory;
